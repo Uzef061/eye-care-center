@@ -82,17 +82,20 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
 
   return (
     <>
-      {/* Separate Top Header Bar for VISION X on Mobile View */}
-      <div className="mobile-top-bar">
-        <div className="container">
-          <div className="mobile-top-bar-inner">
-            <div className="mobile-top-brand" onClick={() => handleNavClick('home')}>
-              <span className="mobile-top-badge">VISION X</span>
-              <span className="mobile-top-sub">• Ophthalmic & Optical Center</span>
+      {/* Mobile Top Header containing ONLY Company Logo */}
+      <div className="mobile-brand-header">
+        <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
+          <div 
+            className="brand-logo" 
+            onClick={() => handleNavClick('home')}
+            style={{ cursor: 'pointer', userSelect: 'none' }}
+          >
+            <div className="brand-icon-wrapper">
+              <Eye size={22} />
             </div>
-            <a href="tel:+9779800559582" className="mobile-top-call">
-              <Phone size={12} /> +977 9800559582
-            </a>
+            <span style={{ fontFamily: 'var(--font-heading)', fontSize: '1.35rem', fontWeight: 800, letterSpacing: '-0.03em' }}>
+              VISION <span style={{ color: 'var(--color-accent-primary)' }}>X</span>
+            </span>
           </div>
         </div>
       </div>
@@ -227,7 +230,7 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
                 }}
               >
                 <MapPin size={15} color="var(--color-accent-primary)" />
-                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-primary)' }}>Nepalgunj-3</span>
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--color-text-primary)' }}>Location</span>
               </button>
               
               {/* Language Switcher Pill */}
