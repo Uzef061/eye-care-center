@@ -196,11 +196,70 @@ input, select, textarea {
 }
 
 /* Minimalist Navbar */
+/* Mobile Top Header Bar over Navbar */
+.mobile-top-bar {
+  display: none;
+  background: #1c1917;
+  color: #ffffff;
+  padding: 0.45rem 0;
+  font-size: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 101;
+  position: relative;
+}
+
+.mobile-top-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.mobile-top-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-top-badge {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--color-accent-primary);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.mobile-top-sub {
+  color: #d6d3d1;
+  font-size: 0.725rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobile-top-call {
+  color: #fef3c7;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  background: rgba(217, 119, 6, 0.25);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(217, 119, 6, 0.4);
+}
+
 .navbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -612,6 +671,18 @@ input, select, textarea {
   }
   .mobile-menu-toggle {
     display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-top-bar {
+    display: block;
+  }
+  .navbar-inner {
+    height: 60px;
+  }
+  .admin-btn-text {
+    display: none;
   }
 }
 

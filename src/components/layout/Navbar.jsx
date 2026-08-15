@@ -82,6 +82,21 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
 
   return (
     <>
+      {/* Separate Top Header Bar for VISION X on Mobile View */}
+      <div className="mobile-top-bar">
+        <div className="container">
+          <div className="mobile-top-bar-inner">
+            <div className="mobile-top-brand" onClick={() => handleNavClick('home')}>
+              <span className="mobile-top-badge">VISION X</span>
+              <span className="mobile-top-sub">• Ophthalmic & Optical Center</span>
+            </div>
+            <a href="tel:+9779800559582" className="mobile-top-call">
+              <Phone size={12} /> +977 9800559582
+            </a>
+          </div>
+        </div>
+      </div>
+
       <nav className="navbar">
         <div className="container">
           <div className="navbar-inner">
