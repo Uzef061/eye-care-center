@@ -97,7 +97,8 @@ export default function ContactSection() {
               backgroundColor: '#e2e8f0',
               position: 'relative',
               boxShadow: 'var(--shadow-md)',
-              border: '1px solid var(--color-border)'
+              border: '1px solid var(--color-border)',
+              marginBottom: '0.75rem'
             }}>
               <iframe
                 title="VISION X Nepalgunj Map Location"
@@ -105,10 +106,20 @@ export default function ContactSection() {
                 height="100%"
                 frameBorder="0"
                 style={{ border: 0 }}
-                src="https://maps.google.com/maps?q=Nepalgunj-3,+Banke,+Nepal&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                src="https://maps.google.com/maps?q=Nepalgunj-3,+Banke,+Nepal&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 allowFullScreen
               />
             </div>
+            
+            <a
+              href="https://maps.app.goo.gl/tH34rbEju7Ts3YNw6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-secondary btn-sm"
+              style={{ width: '100%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', textDecoration: 'none' }}
+            >
+              <MapPin size={14} color="var(--color-accent-primary)" /> Open Pinned Location on Google Maps ↗
+            </a>
           </div>
 
           {/* Contact Inquiry Form */}

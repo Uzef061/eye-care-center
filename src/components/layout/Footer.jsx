@@ -72,7 +72,9 @@ export default function Footer({ setActivePage, setIsAdminView }) {
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.9rem' }}>
               <li style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
                 <MapPin size={18} color="var(--color-accent-primary)" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <span>Nepalgunj-3, Banke</span>
+                <a href="https://maps.app.goo.gl/tH34rbEju7Ts3YNw6" target="_blank" rel="noopener noreferrer" style={{ color: '#a8a29e', textDecoration: 'none' }}>
+                  Nepalgunj-3, Banke (View Map ↗)
+                </a>
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                 <Phone size={18} color="var(--color-accent-primary)" style={{ flexShrink: 0 }} />

@@ -134,7 +134,7 @@ export default function DoctorProfile({ onBookClick }) {
                 <MapPin size={18} color="var(--color-accent-primary)" /> Clinic Location & Hours:
               </div>
               <div style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: '1.6' }}>
-                <div>📍 <strong>Location:</strong> Nepalgunj-3, Banke</div>
+                <div>📍 <strong>Location:</strong> <a href="https://maps.app.goo.gl/tH34rbEju7Ts3YNw6" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-accent-primary)', fontWeight: 600 }}>Nepalgunj-3, Banke (Open Pin ↗)</a></div>
                 <div>🕒 <strong>Sun - Fri:</strong> 04:00 PM - 09:00 PM | <strong>Sat:</strong> 10:00 AM - 09:00 PM</div>
               </div>
             </div>
