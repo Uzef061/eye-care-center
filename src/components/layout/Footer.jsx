@@ -1,13 +1,12 @@
 import React from 'react';
-import { Eye, Phone, Mail, MapPin, Clock, ShieldCheck, Heart } from 'lucide-react';
+import { Eye, Phone, Mail, MapPin, Clock, Heart } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
-export default function Footer({ setActivePage, setIsAdminView }) {
+export default function Footer({ setActivePage }) {
   const { t } = useLanguage();
 
   const handleLinkClick = (pageId) => {
     setActivePage(pageId);
-    setIsAdminView(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -28,16 +27,6 @@ export default function Footer({ setActivePage, setIsAdminView }) {
             <p style={{ fontSize: '0.9rem', lineHeight: '1.6', marginBottom: '1.5rem', color: '#a8a29e' }}>
               {t('footer_desc')}
             </p>
-            <button 
-              className="admin-toggle-btn"
-              onClick={() => {
-                setIsAdminView(true);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              style={{ background: 'rgba(255, 255, 255, 0.1)', color: '#fff' }}
-            >
-              <ShieldCheck size={16} /> {t('nav_manager')}
-            </button>
           </div>
 
           {/* Quick Links */}

@@ -386,18 +386,11 @@ export function LanguageProvider({ children }) {
     return TRANSLATIONS[lang]?.[key] || TRANSLATIONS['en']?.[key] || key;
   };
 
-  const formatPrice = (amountUSD) => {
-    if (typeof amountUSD !== 'number' || isNaN(amountUSD)) return amountUSD;
-
-    if (lang === 'ne') {
-      const npr = Math.round(amountUSD * 133);
-      return `रु ${npr.toLocaleString('ne-NP')}`;
-    } else if (lang === 'hi') {
-      const inr = Math.round(amountUSD * 83);
-      return `₹${inr.toLocaleString('hi-IN')}`;
-    } else {
-      return `$${amountUSD.toFixed(2)}`;
-    }
+  // Format ALL prices strictly into Nepalese Rupees (NPR / रु)
+  const formatPrice = (amount) => {
+    if (typeof amount !== 'number' || isNaN(amount)) return amount;
+    const nprAmount = Math.round(amount);
+    return `रु ${nprAmount.toLocaleString('en-IN')}`;
   };
 
   return (

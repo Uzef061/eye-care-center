@@ -8,9 +8,10 @@ import {
 import { logoutAdmin } from '../../services/authService';
 import { SERVICES_DATA } from '../../data/services';
 import { useLanguage } from '../../context/LanguageContext';
+import FinanceManagement from './FinanceManagement';
 import {
   LayoutDashboard, Calendar, Glasses, Stethoscope, Users, Settings, PackageCheck,
-  Plus, Edit, Trash2, Search, ArrowLeft, X, LogOut
+  Plus, Edit, Trash2, Search, ArrowLeft, X, LogOut, DollarSign
 } from 'lucide-react';
 import '../../styles/admin.css';
 
@@ -552,6 +553,7 @@ export default function AdminDashboard({ onExitAdmin, onLogout }) {
 
   const sidebarItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'finance', label: 'Finance & P&L', icon: DollarSign, badge: 'Finance' },
     { id: 'customers', label: t('admin_tab_customers'), icon: Users, badge: customers.length },
     { id: 'stocks', label: t('admin_tab_stocks'), icon: PackageCheck, badge: lowStockCount > 0 ? `${lowStockCount} Low` : null, warn: true },
     { id: 'appointments', label: t('admin_tab_appts'), icon: Calendar, badge: pendingCount || null },
@@ -683,6 +685,11 @@ export default function AdminDashboard({ onExitAdmin, onLogout }) {
                   </div>
                 </div>
               </div>
+            )}
+
+            {/* FINANCIAL MANAGEMENT & P&L (MANAGER PORTAL EXCLUSIVE) */}
+            {activeTab === 'finance' && (
+              <FinanceManagement />
             )}
 
             {/* CUSTOMERS DATABASE */}

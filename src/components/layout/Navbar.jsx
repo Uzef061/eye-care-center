@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Eye, Menu, X, Calendar, ShieldCheck, ChevronDown, ChevronRight, Globe, Glasses, Stethoscope, Sliders, CheckCircle2, MapPin, ExternalLink, Clock, Phone, Mail, Home, Info, PhoneCall } from 'lucide-react';
+import { Eye, Menu, X, Calendar, ChevronDown, ChevronRight, Globe, Glasses, Stethoscope, Sliders, MapPin, Home, Info, PhoneCall } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
-export default function Navbar({ activePage, setActivePage, isAdminView, setIsAdminView }) {
+export default function Navbar({ activePage, setActivePage }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
@@ -62,15 +62,6 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
 
   const handleNavClick = (pageId) => {
     setActivePage(pageId);
-    setIsAdminView(false);
-    setMobileMenuOpen(false);
-    setLangMenuOpen(false);
-    setServicesDropdownOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleToggleAdmin = () => {
-    setIsAdminView(!isAdminView);
     setMobileMenuOpen(false);
     setLangMenuOpen(false);
     setServicesDropdownOpen(false);
@@ -78,7 +69,7 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
   };
 
   const activeLangObj = languages.find(l => l.code === lang) || languages[0];
-  const isServicesActive = ['services', 'eyecheckup', 'eyewear', 'fitting'].includes(activePage) && !isAdminView;
+  const isServicesActive = ['services', 'eyecheckup', 'eyewear', 'fitting'].includes(activePage);
 
   return (
     <>
@@ -105,7 +96,7 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
         <div className="container">
           <div className="navbar-inner">
 
-            {/* Minimalist VISION X Brand Logo */}
+            {/* Customer Brand Logo */}
             <div 
               className="brand-logo" 
               onClick={() => handleNavClick('home')}
@@ -119,7 +110,7 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
               </span>
             </div>
 
-            {/* Minimalist Action Controls */}
+            {/* Customer Action Controls */}
             <div className="nav-actions">
 
               {/* Google Maps Location Button */}
@@ -172,17 +163,7 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
                 )}
               </div>
 
-              {/* Manager Panel Toggle Button */}
-              <button 
-                className={`admin-toggle-btn ${isAdminView ? 'active' : ''}`}
-                onClick={handleToggleAdmin}
-                title="Toggle Manager & Database Dashboard"
-              >
-                <ShieldCheck size={16} />
-                <span className="admin-btn-text">{isAdminView ? t('nav_customer_site') : t('nav_manager')}</span>
-              </button>
-
-              {/* Minimalist Book Appointment CTA */}
+              {/* Book Appointment CTA */}
               <button 
                 className="btn btn-primary btn-sm nav-cta-btn"
                 onClick={() => handleNavClick('appointments')}
@@ -210,10 +191,10 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
               {/* Home */}
               <li>
                 <span 
-                  className={`sub-nav-link ${activePage === 'home' && !isAdminView ? 'active' : ''}`}
+                  className={`sub-nav-link ${activePage === 'home' ? 'active' : ''}`}
                   onClick={() => handleNavClick('home')}
                 >
-                  <Home size={15} color={activePage === 'home' && !isAdminView ? 'var(--color-accent-primary)' : 'currentColor'} />
+                  <Home size={15} color={activePage === 'home' ? 'var(--color-accent-primary)' : 'currentColor'} />
                   <span>{t('nav_home')}</span>
                 </span>
               </li>
@@ -241,7 +222,7 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
                     <div className="services-dropdown-inner">
                       {serviceSubItems.map((sub) => {
                         const Icon = sub.icon;
-                        const isSubActive = activePage === sub.id && !isAdminView;
+                        const isSubActive = activePage === sub.id;
                         return (
                           <div
                             key={sub.id}
@@ -283,10 +264,10 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
               {/* About Us */}
               <li>
                 <span 
-                  className={`sub-nav-link ${activePage === 'about' && !isAdminView ? 'active' : ''}`}
+                  className={`sub-nav-link ${activePage === 'about' ? 'active' : ''}`}
                   onClick={() => handleNavClick('about')}
                 >
-                  <Info size={15} color={activePage === 'about' && !isAdminView ? 'var(--color-accent-primary)' : 'currentColor'} />
+                  <Info size={15} color={activePage === 'about' ? 'var(--color-accent-primary)' : 'currentColor'} />
                   <span>{t('nav_about')}</span>
                 </span>
               </li>
@@ -294,10 +275,10 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
               {/* Contact Us */}
               <li>
                 <span 
-                  className={`sub-nav-link ${activePage === 'contact' && !isAdminView ? 'active' : ''}`}
+                  className={`sub-nav-link ${activePage === 'contact' ? 'active' : ''}`}
                   onClick={() => handleNavClick('contact')}
                 >
-                  <PhoneCall size={15} color={activePage === 'contact' && !isAdminView ? 'var(--color-accent-primary)' : 'currentColor'} />
+                  <PhoneCall size={15} color={activePage === 'contact' ? 'var(--color-accent-primary)' : 'currentColor'} />
                   <span>{t('nav_contact')}</span>
                 </span>
               </li>
@@ -306,7 +287,7 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
         </div>
       </nav>
 
-      {/* Mobile Nav Drawer with Accordion Services */}
+      {/* Mobile Nav Drawer */}
       <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}>
         {/* Location button inside mobile drawer */}
         <div style={{ marginBottom: '1rem' }}>
@@ -433,14 +414,6 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
             <Calendar size={18} />
             {t('nav_book')}
           </button>
-          
-          <button 
-            className="btn btn-secondary"
-            onClick={handleToggleAdmin}
-          >
-            <ShieldCheck size={18} />
-            {isAdminView ? t('nav_customer_site') : t('nav_manager')}
-          </button>
         </div>
       </div>
 
@@ -496,55 +469,6 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
-            </div>
-
-            {/* Quick Contact & Timings Summary */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '0.85rem',
-              backgroundColor: 'var(--color-bg-secondary)',
-              padding: '1rem 1.25rem',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-border-subtle)',
-              marginBottom: '1.5rem',
-              fontSize: '0.875rem'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <Clock size={18} color="var(--color-accent-primary)" style={{ flexShrink: 0 }} />
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Clinic Hours</div>
-                  <div style={{ fontWeight: 600, fontSize: '0.825rem' }}>Sun-Fri: 04:00 PM - 09:00 PM</div>
-                  <div style={{ fontWeight: 600, fontSize: '0.825rem' }}>Sat: 10:00 AM - 09:00 PM</div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <Phone size={18} color="var(--color-accent-primary)" style={{ flexShrink: 0 }} />
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.8rem', color: 'var(--color-text-muted)' }}>Contact Hotline</div>
-                  <a href="tel:+9779800559582" style={{ fontWeight: 700, color: 'var(--color-accent-primary)' }}>
-                    +977 9800559582
-                  </a>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)' }}>usadiq79@gmail.com</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Actions */}
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <button className="btn btn-secondary" style={{ flex: 1 }} onClick={() => setLocationModalOpen(false)}>
-                Close
-              </button>
-              <a
-                href="https://maps.app.goo.gl/tH34rbEju7Ts3YNw6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary"
-                style={{ flex: 1.5, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none' }}
-              >
-                <ExternalLink size={16} /> Open in Google Maps
-              </a>
             </div>
           </div>
         </div>
