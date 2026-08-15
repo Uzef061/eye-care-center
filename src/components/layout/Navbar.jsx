@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Eye, Menu, X, Calendar, ShieldCheck, ChevronDown, ChevronRight, Globe, Glasses, Stethoscope, Sliders, CheckCircle2, MapPin, ExternalLink, Clock, Phone, Mail } from 'lucide-react';
+import { Eye, Menu, X, Calendar, ShieldCheck, ChevronDown, ChevronRight, Globe, Glasses, Stethoscope, Sliders, CheckCircle2, MapPin, ExternalLink, Clock, Phone, Mail, Home, Info, PhoneCall } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function Navbar({ activePage, setActivePage, isAdminView, setIsAdminView }) {
@@ -101,6 +101,7 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
       </div>
 
       <nav className="navbar">
+        {/* Primary Navbar Row */}
         <div className="container">
           <div className="navbar-inner">
 
@@ -117,100 +118,6 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
                 VISION <span style={{ color: 'var(--color-accent-primary)' }}>X</span>
               </span>
             </div>
-
-            {/* Minimalist Top Navigation Links */}
-            <ul className="nav-links">
-              {/* Home Link */}
-              <li>
-                <span 
-                  className={`nav-link ${activePage === 'home' && !isAdminView ? 'active' : ''}`}
-                  onClick={() => handleNavClick('home')}
-                >
-                  {t('nav_home')}
-                </span>
-              </li>
-
-              {/* Services Link with Minimalist Dropdown Menu */}
-              <li 
-                ref={dropdownRef} 
-                style={{ position: 'relative' }}
-                onMouseEnter={() => setServicesDropdownOpen(true)}
-                onMouseLeave={() => setServicesDropdownOpen(false)}
-              >
-                <button
-                  className={`nav-link ${isServicesActive ? 'active' : ''}`}
-                  onClick={() => handleNavClick('services')}
-                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', border: 'none', background: 'none' }}
-                >
-                  <span>{t('nav_services')}</span>
-                  <ChevronDown size={14} style={{ transition: 'transform var(--transition-fast)', transform: servicesDropdownOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
-                </button>
-
-                {/* Mega Minimalist Dropdown Card */}
-                {servicesDropdownOpen && (
-                  <div className="services-dropdown-card">
-                    <div className="services-dropdown-inner">
-                      {serviceSubItems.map((sub) => {
-                        const Icon = sub.icon;
-                        const isSubActive = activePage === sub.id && !isAdminView;
-                        return (
-                          <div
-                            key={sub.id}
-                            className={`dropdown-item ${isSubActive ? 'dropdown-item-active' : ''}`}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleNavClick(sub.id);
-                            }}
-                          >
-                            <div style={{
-                              width: '36px',
-                              height: '36px',
-                              borderRadius: '10px',
-                              backgroundColor: `${sub.color}15`,
-                              color: sub.color,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              flexShrink: 0
-                            }}>
-                              <Icon size={18} />
-                            </div>
-                            <div>
-                              <div style={{ fontWeight: 600, fontSize: '0.875rem', color: isSubActive ? 'var(--color-accent-primary)' : 'var(--color-text-primary)' }}>
-                                {t(sub.titleKey)}
-                              </div>
-                              <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', lineHeight: '1.3' }}>
-                                {sub.desc}
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </li>
-
-              {/* About Link */}
-              <li>
-                <span 
-                  className={`nav-link ${activePage === 'about' && !isAdminView ? 'active' : ''}`}
-                  onClick={() => handleNavClick('about')}
-                >
-                  {t('nav_about')}
-                </span>
-              </li>
-
-              {/* Contact Link */}
-              <li>
-                <span 
-                  className={`nav-link ${activePage === 'contact' && !isAdminView ? 'active' : ''}`}
-                  onClick={() => handleNavClick('contact')}
-                >
-                  {t('nav_contact')}
-                </span>
-              </li>
-            </ul>
 
             {/* Minimalist Action Controls */}
             <div className="nav-actions">
@@ -296,144 +203,246 @@ export default function Navbar({ activePage, setActivePage, isAdminView, setIsAd
           </div>
         </div>
 
-        {/* Mobile Nav Drawer with Accordion Services */}
-        <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}>
-          {/* Location button inside mobile drawer */}
-          <div style={{ marginBottom: '1rem' }}>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setLocationModalOpen(true);
-              }}
-              style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem',
-                padding: '0.65rem',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--color-accent-light)',
-                color: 'var(--color-accent-primary)',
-                fontWeight: 700,
-                fontSize: '0.875rem',
-                border: '1px solid var(--color-accent-primary)',
-                cursor: 'pointer'
-              }}
-            >
-              <MapPin size={18} />
-              <span>📍 Nepalgunj-3, Banke — View Map</span>
-            </button>
-          </div>
+        {/* Second Sub-Navbar Row with Home, Services, About, Contact Icons */}
+        <div className="sub-navbar">
+          <div className="container">
+            <ul className="sub-nav-links">
+              {/* Home */}
+              <li>
+                <span 
+                  className={`sub-nav-link ${activePage === 'home' && !isAdminView ? 'active' : ''}`}
+                  onClick={() => handleNavClick('home')}
+                >
+                  <Home size={15} color={activePage === 'home' && !isAdminView ? 'var(--color-accent-primary)' : 'currentColor'} />
+                  <span>{t('nav_home')}</span>
+                </span>
+              </li>
 
-          {/* Language selector pills */}
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border-subtle)' }}>
-            {languages.map((l) => (
-              <button
-                key={l.code}
-                onClick={() => changeLanguage(l.code)}
-                style={{
-                  flex: 1,
-                  padding: '0.45rem 0',
-                  borderRadius: 'var(--radius-full)',
-                  border: '1px solid var(--color-border)',
-                  backgroundColor: lang === l.code ? 'var(--color-accent-primary)' : 'var(--color-bg-tertiary)',
-                  color: lang === l.code ? '#fff' : 'var(--color-text-primary)',
-                  fontWeight: 600,
-                  fontSize: '0.8rem',
-                  cursor: 'pointer'
-                }}
+              {/* Services with Dropdown */}
+              <li 
+                ref={dropdownRef} 
+                style={{ position: 'relative' }}
+                onMouseEnter={() => setServicesDropdownOpen(true)}
+                onMouseLeave={() => setServicesDropdownOpen(false)}
               >
-                {l.flag} {l.label}
-              </button>
-            ))}
-          </div>
+                <button
+                  className={`sub-nav-link ${isServicesActive ? 'active' : ''}`}
+                  onClick={() => handleNavClick('services')}
+                  style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', border: 'none', background: 'none' }}
+                >
+                  <Stethoscope size={15} color={isServicesActive ? 'var(--color-accent-primary)' : 'currentColor'} />
+                  <span>{t('nav_services')}</span>
+                  <ChevronDown size={13} style={{ transition: 'transform var(--transition-fast)', transform: servicesDropdownOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
+                </button>
 
-          <ul className="mobile-nav-links">
-            {/* Home */}
-            <li>
-              <div className="mobile-nav-link" onClick={() => handleNavClick('home')}>
-                <span>{t('nav_home')}</span>
-                <ChevronRight size={18} color="var(--color-text-muted)" />
-              </div>
-            </li>
+                {/* Mega Dropdown Card */}
+                {servicesDropdownOpen && (
+                  <div className="services-dropdown-card">
+                    <div className="services-dropdown-inner">
+                      {serviceSubItems.map((sub) => {
+                        const Icon = sub.icon;
+                        const isSubActive = activePage === sub.id && !isAdminView;
+                        return (
+                          <div
+                            key={sub.id}
+                            className={`dropdown-item ${isSubActive ? 'dropdown-item-active' : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleNavClick(sub.id);
+                            }}
+                          >
+                            <div style={{
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '10px',
+                              backgroundColor: `${sub.color}15`,
+                              color: sub.color,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0
+                            }}>
+                              <Icon size={18} />
+                            </div>
+                            <div>
+                              <div style={{ fontWeight: 600, fontSize: '0.875rem', color: isSubActive ? 'var(--color-accent-primary)' : 'var(--color-text-primary)' }}>
+                                {t(sub.titleKey)}
+                              </div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', lineHeight: '1.3' }}>
+                                {sub.desc}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </li>
 
-            {/* Services Group Dropdown */}
-            <li>
-              <div 
-                className="mobile-nav-link" 
-                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                style={{ fontWeight: 700, color: 'var(--color-accent-primary)' }}
-              >
-                <span>{t('nav_services')}</span>
-                <ChevronDown size={18} style={{ transform: mobileServicesOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform var(--transition-fast)' }} />
-              </div>
+              {/* About Us */}
+              <li>
+                <span 
+                  className={`sub-nav-link ${activePage === 'about' && !isAdminView ? 'active' : ''}`}
+                  onClick={() => handleNavClick('about')}
+                >
+                  <Info size={15} color={activePage === 'about' && !isAdminView ? 'var(--color-accent-primary)' : 'currentColor'} />
+                  <span>{t('nav_about')}</span>
+                </span>
+              </li>
 
-              {/* Nested Services Links */}
-              {mobileServicesOpen && (
-                <div style={{ paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem', marginBottom: '0.5rem' }}>
-                  {serviceSubItems.map((sub) => {
-                    const Icon = sub.icon;
-                    return (
-                      <div 
-                        key={sub.id} 
-                        onClick={() => handleNavClick(sub.id)}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.75rem',
-                          padding: '0.6rem 0.75rem',
-                          borderRadius: 'var(--radius-md)',
-                          backgroundColor: activePage === sub.id ? 'var(--color-accent-light)' : 'var(--color-bg-secondary)',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        <Icon size={18} color={sub.color} />
-                        <span style={{ fontSize: '0.95rem', fontWeight: 600 }}>{t(sub.titleKey)}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </li>
-
-            {/* About */}
-            <li>
-              <div className="mobile-nav-link" onClick={() => handleNavClick('about')}>
-                <span>{t('nav_about')}</span>
-                <ChevronRight size={18} color="var(--color-text-muted)" />
-              </div>
-            </li>
-
-            {/* Contact */}
-            <li>
-              <div className="mobile-nav-link" onClick={() => handleNavClick('contact')}>
-                <span>{t('nav_contact')}</span>
-                <ChevronRight size={18} color="var(--color-text-muted)" />
-              </div>
-            </li>
-          </ul>
-
-          {/* Drawer Actions */}
-          <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            <button 
-              className="btn btn-primary"
-              onClick={() => handleNavClick('appointments')}
-            >
-              <Calendar size={18} />
-              {t('nav_book')}
-            </button>
-            
-            <button 
-              className="btn btn-secondary"
-              onClick={handleToggleAdmin}
-            >
-              <ShieldCheck size={18} />
-              {isAdminView ? t('nav_customer_site') : t('nav_manager')}
-            </button>
+              {/* Contact Us */}
+              <li>
+                <span 
+                  className={`sub-nav-link ${activePage === 'contact' && !isAdminView ? 'active' : ''}`}
+                  onClick={() => handleNavClick('contact')}
+                >
+                  <PhoneCall size={15} color={activePage === 'contact' && !isAdminView ? 'var(--color-accent-primary)' : 'currentColor'} />
+                  <span>{t('nav_contact')}</span>
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>
+
+      {/* Mobile Nav Drawer with Accordion Services */}
+      <div className={`mobile-drawer ${mobileMenuOpen ? 'open' : ''}`}>
+        {/* Location button inside mobile drawer */}
+        <div style={{ marginBottom: '1rem' }}>
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              setLocationModalOpen(true);
+            }}
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              padding: '0.65rem',
+              borderRadius: 'var(--radius-md)',
+              backgroundColor: 'var(--color-accent-light)',
+              color: 'var(--color-accent-primary)',
+              fontWeight: 700,
+              fontSize: '0.875rem',
+              border: '1px solid var(--color-accent-primary)',
+              cursor: 'pointer'
+            }}
+          >
+            <MapPin size={18} />
+            <span>📍 Location — View Google Map</span>
+          </button>
+        </div>
+
+        {/* Language selector pills */}
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border-subtle)' }}>
+          {languages.map((l) => (
+            <button
+              key={l.code}
+              onClick={() => changeLanguage(l.code)}
+              style={{
+                flex: 1,
+                padding: '0.45rem 0',
+                borderRadius: 'var(--radius-full)',
+                border: '1px solid var(--color-border)',
+                backgroundColor: lang === l.code ? 'var(--color-accent-primary)' : 'var(--color-bg-tertiary)',
+                color: lang === l.code ? '#fff' : 'var(--color-text-primary)',
+                fontWeight: 600,
+                fontSize: '0.8rem',
+                cursor: 'pointer'
+              }}
+            >
+              {l.flag} {l.label}
+            </button>
+          ))}
+        </div>
+
+        <ul className="mobile-nav-links">
+          {/* Home */}
+          <li>
+            <div className="mobile-nav-link" onClick={() => handleNavClick('home')}>
+              <span>{t('nav_home')}</span>
+              <ChevronRight size={18} color="var(--color-text-muted)" />
+            </div>
+          </li>
+
+          {/* Services Group Dropdown */}
+          <li>
+            <div 
+              className="mobile-nav-link" 
+              onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+              style={{ fontWeight: 700, color: 'var(--color-accent-primary)' }}
+            >
+              <span>{t('nav_services')}</span>
+              <ChevronDown size={18} style={{ transform: mobileServicesOpen ? 'rotate(180deg)' : 'rotate(0)', transition: 'transform var(--transition-fast)' }} />
+            </div>
+
+            {/* Nested Services Links */}
+            {mobileServicesOpen && (
+              <div style={{ paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem', marginBottom: '0.5rem' }}>
+                {serviceSubItems.map((sub) => {
+                  const Icon = sub.icon;
+                  return (
+                    <div 
+                      key={sub.id} 
+                      onClick={() => handleNavClick(sub.id)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
+                        padding: '0.6rem 0.75rem',
+                        borderRadius: 'var(--radius-md)',
+                        backgroundColor: activePage === sub.id ? 'var(--color-accent-light)' : 'var(--color-bg-secondary)',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <Icon size={18} color={sub.color} />
+                      <span style={{ fontSize: '0.95rem', fontWeight: 600 }}>{t(sub.titleKey)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </li>
+
+          {/* About */}
+          <li>
+            <div className="mobile-nav-link" onClick={() => handleNavClick('about')}>
+              <span>{t('nav_about')}</span>
+              <ChevronRight size={18} color="var(--color-text-muted)" />
+            </div>
+          </li>
+
+          {/* Contact */}
+          <li>
+            <div className="mobile-nav-link" onClick={() => handleNavClick('contact')}>
+              <span>{t('nav_contact')}</span>
+              <ChevronRight size={18} color="var(--color-text-muted)" />
+            </div>
+          </li>
+        </ul>
+
+        {/* Drawer Actions */}
+        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <button 
+            className="btn btn-primary"
+            onClick={() => handleNavClick('appointments')}
+          >
+            <Calendar size={18} />
+            {t('nav_book')}
+          </button>
+          
+          <button 
+            className="btn btn-secondary"
+            onClick={handleToggleAdmin}
+          >
+            <ShieldCheck size={18} />
+            {isAdminView ? t('nav_customer_site') : t('nav_manager')}
+          </button>
+        </div>
+      </div>
 
       {/* Interactive Google Maps Location Modal */}
       {locationModalOpen && (

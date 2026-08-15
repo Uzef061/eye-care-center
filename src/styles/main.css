@@ -222,7 +222,51 @@ input, select, textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 68px;
+  height: 64px;
+}
+
+/* Second Sub-Navbar Bar */
+.sub-navbar {
+  background-color: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.sub-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  list-style: none;
+  height: 46px;
+}
+
+.sub-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  position: relative;
+  padding: 0.5rem 0.25rem;
+}
+
+.sub-nav-link:hover, .sub-nav-link.active {
+  color: var(--color-accent-primary);
+}
+
+.sub-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background-color: var(--color-accent-primary);
+  border-radius: 2px;
 }
 
 .brand-logo {
@@ -643,6 +687,20 @@ input, select, textarea {
   }
   .admin-btn-text {
     display: none;
+  }
+  .sub-nav-links {
+    gap: 1.25rem;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0 0.5rem;
+    scrollbar-width: none;
+  }
+  .sub-nav-links::-webkit-scrollbar {
+    display: none;
+  }
+  .sub-nav-link span {
+    white-space: nowrap;
+    font-size: 0.825rem;
   }
 }
 
