@@ -1,9 +1,10 @@
 /**
  * VISION X — Appointment Service
  * Uses Supabase PostgreSQL as the primary store.
- * Falls back to localStorage if Supabase is not configured or fails.
+ * Synchronizes with Cloud Database & provides local fallback.
  */
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabase.js';
+import { saveCustomerDB } from './databaseService.js';
 
 const TABLE = 'appointments';
 const LS_KEY = 'visionx_appointments';
@@ -52,7 +53,7 @@ const toRow = (app) => ({
   status: app.status || 'Pending'
 });
 
-/* ── localStorage helpers (fallback) ── */
+/* ── localStorage helpers ── */
 const lsGet = () => {
   try {
     const d = localStorage.getItem(LS_KEY);
@@ -68,7 +69,13 @@ const lsSet = (data) => { try { localStorage.setItem(LS_KEY, JSON.stringify(data
 export const getAppointments = async () => {
   if (supabase) {
     const { data, error } = await supabase.from(TABLE).select('*').order('created_at', { ascending: false });
-    if (!error && data && data.length > 0) return data.map(toApp);
+    if (!error && data) {
+      const apptList = data.map(toApp);
+      if (apptList.length > 0) {
+        lsSet(apptList);
+        return apptList;
+      }
+    }
     if (error) console.warn('[Supabase] getAppointments warning:', error.message);
   }
   return lsGet();
@@ -78,9 +85,28 @@ export const saveAppointment = async (appointmentData) => {
   const row = toRow(appointmentData);
   if (supabase) {
     const { data, error } = await supabase.from(TABLE).upsert(row).select();
-    if (!error && data && data.length > 0) return toApp(data[0]);
+    if (!error && data && data.length > 0) {
+      const savedAppt = toApp(data[0]);
+      const current = lsGet();
+      lsSet([savedAppt, ...current.filter(a => a.id !== savedAppt.id)]);
+      
+      // Auto-sync customer to database
+      try {
+        await saveCustomerDB({
+          fullName: savedAppt.fullName,
+          phone: savedAppt.phone,
+          email: savedAppt.email,
+          notes: `Appointment: ${savedAppt.service} on ${savedAppt.date}`
+        });
+      } catch (e) {
+        console.warn('[Supabase] Auto-customer sync note:', e);
+      }
+
+      return savedAppt;
+    }
     if (error) console.error('[Supabase] saveAppointment error:', error.message);
   }
+
   // localStorage fallback
   const current = lsGet();
   const newAppt = { ...appointmentData, id: row.id, status: 'Pending', createdAt: new Date().toISOString() };

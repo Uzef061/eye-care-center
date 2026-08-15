@@ -2,9 +2,9 @@
  * VISION X — Database Service (Customers & Stock Inventory)
  * Uses Supabase PostgreSQL as primary database with localStorage fallback.
  */
-import { supabase } from '../lib/supabase';
-import { INITIAL_CUSTOMERS } from '../data/customers';
-import { INITIAL_STOCKS } from '../data/stocks';
+import { supabase } from '../lib/supabase.js';
+import { INITIAL_CUSTOMERS } from '../data/customers.js';
+import { INITIAL_STOCKS } from '../data/stocks.js';
 
 const CUSTOMERS_TABLE = 'customers';
 const STOCKS_TABLE = 'stocks';
@@ -36,7 +36,7 @@ const toCustomerApp = (row) => ({
 
 const toCustomerRow = (c) => ({
   id: c.id || "CUST-" + Math.floor(1000 + Math.random() * 9000),
-  full_name: c.fullName,
+  full_name: c.fullName || c.name || 'Patient',
   phone: c.phone || '',
   email: c.email || '',
   address: c.address || '',
@@ -110,8 +110,12 @@ const lsSetStock = (d) => { try { localStorage.setItem(STOCKS_LS_KEY, JSON.strin
 export const getCustomersDB = async () => {
   if (supabase) {
     const { data, error } = await supabase.from(CUSTOMERS_TABLE).select('*').order('created_at', { ascending: false });
-    if (!error && data && data.length > 0) {
-      return data.map(toCustomerApp);
+    if (!error && data) {
+      const custList = data.map(toCustomerApp);
+      if (custList.length > 0) {
+        lsSetCust(custList);
+        return custList;
+      }
     }
     if (error) console.error('[Supabase] getCustomersDB error:', error.message);
   }
@@ -158,8 +162,12 @@ export const deleteCustomerDB = async (id) => {
 export const getStocksDB = async () => {
   if (supabase) {
     const { data, error } = await supabase.from(STOCKS_TABLE).select('*');
-    if (!error && data && data.length > 0) {
-      return data.map(toStockApp);
+    if (!error && data) {
+      const stockList = data.map(toStockApp);
+      if (stockList.length > 0) {
+        lsSetStock(stockList);
+        return stockList;
+      }
     }
     if (error) console.error('[Supabase] getStocksDB error:', error.message);
   }

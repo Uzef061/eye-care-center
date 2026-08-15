@@ -2,7 +2,7 @@
  * VISION X — Product Service
  * Uses Supabase PostgreSQL as primary store with localStorage fallback.
  */
-import { supabase } from '../lib/supabase';
+import { supabase } from '../lib/supabase.js';
 import { INITIAL_PRODUCTS } from '../data/products.js';
 
 const TABLE = 'products';
@@ -58,8 +58,12 @@ const lsSet = (data) => {
 export const getProducts = async () => {
   if (supabase) {
     const { data, error } = await supabase.from(TABLE).select('*');
-    if (!error && data && data.length > 0) {
-      return data.map(toApp);
+    if (!error && data) {
+      const prodList = data.map(toApp);
+      if (prodList.length > 0) {
+        lsSet(prodList);
+        return prodList;
+      }
     }
     if (error) console.error('[Supabase] getProducts error:', error.message);
   }
@@ -69,7 +73,7 @@ export const getProducts = async () => {
 export const saveProduct = async (productData) => {
   const row = toRow(productData);
   if (supabase) {
-    const { data, error } = await supabase.from(TABLE).upsert(row).select().single();
+    const { data, error } = await supabase.from(TABLE).upsert(row).select();
     if (!error && data) return getProducts();
     if (error) console.error('[Supabase] saveProduct error:', error.message);
   }
