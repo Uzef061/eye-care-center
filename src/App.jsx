@@ -23,6 +23,8 @@ import { isAuthenticatedAdmin } from './services/authService';
 import { getProducts } from './services/productService';
 import { getCustomersDB, getStocksDB } from './services/databaseService';
 
+import WhatsAppButton from './components/common/WhatsAppButton';
+
 import './styles/main.css';
 
 export default function App() {
@@ -156,7 +158,10 @@ export default function App() {
 
       {/* Footer */}
       {!isAdminView && (
-        <Footer setActivePage={setActivePage} setIsAdminView={handleSetAdminView} />
+        <>
+          <Footer setActivePage={setActivePage} setIsAdminView={handleSetAdminView} />
+          <WhatsAppButton />
+        </>
       )}
     </div>
   );
