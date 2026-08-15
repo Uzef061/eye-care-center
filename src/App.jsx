@@ -24,6 +24,7 @@ import { getProducts } from './services/productService';
 import { getCustomersDB, getStocksDB } from './services/databaseService';
 
 import WhatsAppButton from './components/common/WhatsAppButton';
+import PosterModal from './components/common/PosterModal';
 
 import './styles/main.css';
 
@@ -33,6 +34,7 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [preselectedService, setPreselectedService] = useState('');
   const [products, setProducts] = useState([]);
+  const [showPosterModal, setShowPosterModal] = useState(true);
 
   const loadProducts = async () => {
     const list = await getProducts();
@@ -156,11 +158,16 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer */}
+      {/* Footer & Global Overlays */}
       {!isAdminView && (
         <>
           <Footer setActivePage={setActivePage} setIsAdminView={handleSetAdminView} />
           <WhatsAppButton />
+          <PosterModal 
+            isOpen={showPosterModal} 
+            onClose={() => setShowPosterModal(false)} 
+            onBookNow={handleNavigateToBooking} 
+          />
         </>
       )}
     </div>
